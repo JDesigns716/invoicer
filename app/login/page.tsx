@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/SubmitButton";
 import {
 	Card,
 	CardContent,
@@ -8,9 +8,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { auth, signIn } from "../utils/auth";
-import SubmitButton from "@/components/SubmitButton";
 import { redirect } from "next/navigation";
+import { auth, signIn } from "../utils/auth";
 
 export default async function LoginPage() {
 	const session = await auth();
@@ -46,7 +45,7 @@ export default async function LoginPage() {
 									required
 								/>
 							</div>
-							<SubmitButton />
+							<SubmitButton text="Log In" />
 						</form>
 					</CardContent>
 				</Card>

@@ -1,13 +1,5 @@
-// biome-ignore lint/style/useImportType: <explanation>
-import { ReactNode } from "react";
-import { requireUser } from "../utils/hooks";
-import Link from "next/link";
-import Logo from "@/public/logo.png";
-import Image from "next/image";
 import DashboardLinks from "@/components/DashboardLinks";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Menu, User2 } from "lucide-react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -16,17 +8,45 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Logo from "@/public/logo.png";
+import { Menu, User2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+// biome-ignore lint/style/useImportType: <explanation>
+import { ReactNode } from "react";
 import { signOut } from "../utils/auth";
+import prisma from "../utils/db";
+import { requireUser } from "../utils/hooks";
+
+async function getUser(userId: string) {
+	const data = await prisma.user.findUnique({
+		where: {
+			id: userId,
+		},
+		select: {
+			firstName: true,
+			lastName: true,
+			address: true,
+		},
+	});
+
+	if (!data?.firstName || !data.lastName || !data.address) {
+		redirect("/onboarding");
+	}
+}
 
 export default async function DashboardLayout({
 	children,
 }: { children: ReactNode }) {
 	const session = await requireUser();
+	const data = await getUser(session.user?.id as string);
 	return (
 		<>
 			<div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
 				<div className="hidden border-r bg-muted/40 md:block">
-					<div className="flex flex-col max-h-screen h-full gap-2">
+					<div className="flex flex-col h-full max-h-screen gap-2">
 						<div className="h-14 flex items-center border-b px-4 lg:h-[60px] lg:px-6">
 							<Link className="flex items-center gap-2" href="/">
 								<Image src={Logo} alt="Logo" className="size-7" />
@@ -93,7 +113,7 @@ export default async function DashboardLayout({
 							</DropdownMenu>
 						</div>
 					</header>
-					<main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+					<main className="flex flex-col flex-1 gap-4 p-4 lg:gap-6 lg:p-6">
 						{children}
 					</main>
 				</div>

@@ -1,10 +1,14 @@
 "use client";
 
+import { LoaderCircle } from "lucide-react";
 import { useFormStatus } from "react-dom";
 import { Button } from "./ui/button";
-import { LoaderCircle } from "lucide-react";
 
-const SubmitButton = () => {
+interface SubmitButtonProps {
+	text: string;
+}
+
+const SubmitButton = ({ text }: SubmitButtonProps) => {
 	const { pending } = useFormStatus();
 	return (
 		<>
@@ -14,7 +18,7 @@ const SubmitButton = () => {
 				</Button>
 			) : (
 				<Button className="w-full" type="submit">
-					Submit
+					{text}
 				</Button>
 			)}
 		</>
