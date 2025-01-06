@@ -12,7 +12,7 @@ import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useActionState } from "react";
-import onboardUser from "../actions";
+import { onboardUser } from "../actions";
 import { onboardingSchema } from "../utils/zodSchemas";
 
 export default function OnboardingPage() {

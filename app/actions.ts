@@ -4,10 +4,10 @@ import { parseWithZod } from "@conform-to/zod";
 import { redirect } from "next/navigation";
 import prisma from "./utils/db";
 import { requireUser } from "./utils/hooks";
-import { onboardingSchema } from "./utils/zodSchemas";
+import { invoiceSchema, onboardingSchema } from "./utils/zodSchemas";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export default async function onboardUser(prevState: any, formData: FormData) {
+export async function onboardUser(prevState: any, formData: FormData) {
 	const session = await requireUser();
 
 	const submission = parseWithZod(formData, {
@@ -30,4 +30,41 @@ export default async function onboardUser(prevState: any, formData: FormData) {
 	});
 
 	return redirect("/dashboard");
+}
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export async function createInvoice(prevState: any, formData: FormData) {
+	const session = await requireUser();
+
+	const submission = parseWithZod(formData, {
+		schema: invoiceSchema,
+	});
+
+	if (submission.status !== "success") {
+		return submission.reply();
+	}
+
+	const data = await prisma.invoice.create({
+		data: {
+			clientAddress: submission.value.clientAddress || "",
+			clientEmail: submission.value.clientEmail,
+			clientName: submission.value.clientName,
+			currency: submission.value.currency,
+			date: submission.value.date,
+			dueDate: submission.value.dueDate,
+			fromAddress: submission.value.fromAddress || "",
+			fromEmail: submission.value.fromEmail,
+			fromName: submission.value.fromName,
+			invoiceItemDescription: submission.value.invoiceItemDescription,
+			invoiceItemPrice: submission.value.invoiceItemPrice,
+			invoiceItemQuantity: submission.value.invoiceItemQuantity,
+			invoiceName: submission.value.invoiceName,
+			invoiceNumber: submission.value.invoiceNumber,
+			note: submission.value.note,
+			status: submission.value.status,
+			total: submission.value.total,
+			userId: session.user?.id,
+		},
+	});
+	return redirect("/dashboard/invoices");
 }
