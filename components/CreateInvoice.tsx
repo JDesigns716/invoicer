@@ -23,7 +23,19 @@ import {
 } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 
-export function CreateInvoice() {
+interface CreateInvoiceProps {
+	firstName: string;
+	lastName: string;
+	address: string;
+	email: string;
+}
+
+export function CreateInvoice({
+	firstName,
+	lastName,
+	address,
+	email,
+}: CreateInvoiceProps) {
 	const [lastResult, action] = useActionState(createInvoice, undefined);
 	const [form, fields] = useForm({
 		lastResult,
@@ -119,6 +131,7 @@ export function CreateInvoice() {
 									name={fields.fromName.name}
 									key={fields.fromName.key}
 									placeholder="Your Name"
+									defaultValue={`${firstName} ${lastName}`}
 								/>
 								<p className="text-small text-red-500">
 									{fields.fromName.errors}
@@ -127,6 +140,7 @@ export function CreateInvoice() {
 									name={fields.fromEmail.name}
 									key={fields.fromEmail.key}
 									placeholder="Your Email"
+									defaultValue={email}
 								/>
 								<p className="text-small text-red-500">
 									{fields.fromEmail.errors}
@@ -135,6 +149,7 @@ export function CreateInvoice() {
 									name={fields.fromAddress.name}
 									key={fields.fromAddress.key}
 									placeholder="Your Address"
+									defaultValue={address}
 								/>
 								<p className="text-small text-red-500">
 									{fields.fromAddress.errors}

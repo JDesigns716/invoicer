@@ -89,7 +89,7 @@ export async function createInvoice(prevState: any, formData: FormData) {
 				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 				currency: submission.value.currency as any,
 			}),
-			invoiceLink: "Test_InvoiceLink",
+			invoiceLink: `http://localhost:3000/api/invoice/${data.id}`,
 		},
 	});
 
