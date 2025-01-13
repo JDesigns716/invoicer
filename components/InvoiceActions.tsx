@@ -15,7 +15,11 @@ import {
 	DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-export function InvoiceActions() {
+interface InvoiceActionsProps {
+	id: string;
+}
+
+export function InvoiceActions({ id }: InvoiceActionsProps) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -25,7 +29,7 @@ export function InvoiceActions() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
 				<DropdownMenuItem asChild>
-					<Link href="">
+					<Link href={`/dashboard/invoices/${id}`}>
 						<Pencil className="size-4 mr-2" /> Edit Invoice
 					</Link>
 				</DropdownMenuItem>
