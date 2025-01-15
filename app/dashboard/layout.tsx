@@ -9,6 +9,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Toaster } from "@/components/ui/sonner";
 import Logo from "@/public/logo.png";
 import { Menu, User2 } from "lucide-react";
 import Image from "next/image";
@@ -118,6 +119,7 @@ export default async function DashboardLayout({
 					</main>
 				</div>
 			</div>
+			<Toaster richColors closeButton theme="system" />
 		</>
 	);
 }
