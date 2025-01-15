@@ -1,5 +1,5 @@
 "use client";
-import { createInvoice } from "@/app/actions";
+import { editInvoice } from "@/app/actions";
 import { formatCurrency } from "@/app/utils/formatCurrency";
 import { invoiceSchema } from "@/app/utils/zodSchemas";
 import { useForm } from "@conform-to/react";
@@ -31,7 +31,7 @@ interface EditInvoiceProps {
 }
 
 export function EditInvoice({ data }: EditInvoiceProps) {
-	const [lastResult, action] = useActionState(createInvoice, undefined);
+	const [lastResult, action] = useActionState(editInvoice, undefined);
 	const [form, fields] = useForm({
 		lastResult,
 
