@@ -1,5 +1,5 @@
 import { InvoiceList } from "@/components/InvoiceList";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -7,8 +7,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CirclePlus } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default function InvoicesPage() {
 	return (
@@ -25,7 +27,9 @@ export default function InvoicesPage() {
 				</div>
 			</CardHeader>
 			<CardContent>
-				<InvoiceList />
+				<Suspense fallback={<Skeleton className="w-full h-[500px]" />}>
+					<InvoiceList />
+				</Suspense>
 			</CardContent>
 		</Card>
 	);

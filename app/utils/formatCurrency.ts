@@ -1,6 +1,6 @@
 interface FormatCurrencyPrps {
 	amount: number;
-	currency: "USD " | "EUR";
+	currency: "USD" | "EUR";
 }
 
 export function formatCurrency({ amount, currency }: FormatCurrencyPrps) {
