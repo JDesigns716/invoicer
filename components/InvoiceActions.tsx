@@ -19,9 +19,10 @@ import {
 
 interface InvoiceActionsProps {
 	id: string;
+	status: string;
 }
 
-export function InvoiceActions({ id }: InvoiceActionsProps) {
+export function InvoiceActions({ id, status }: InvoiceActionsProps) {
 	const handleSendReminder = () => {
 		toast.promise(
 			fetch(`/api/email/${id}`, {
@@ -64,11 +65,13 @@ export function InvoiceActions({ id }: InvoiceActionsProps) {
 						<Trash className="size-4 mr-2" /> Delete Invoice
 					</Link>
 				</DropdownMenuItem>
-				<DropdownMenuItem asChild>
-					<Link href="">
-						<CheckCircle className="size-4 mr-2" /> Mark as Paid
-					</Link>
-				</DropdownMenuItem>
+				{status !== "PAID" && (
+					<DropdownMenuItem asChild>
+						<Link href={`/dashboard/invoices/${id}/paid`}>
+							<CheckCircle className="size-4 mr-2" /> Mark as Paid
+						</Link>
+					</DropdownMenuItem>
+				)}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
